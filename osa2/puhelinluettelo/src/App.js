@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
-
+import dbService from './components/dbService'
 
 const SearchBar = ({ handler }) => {
   return (
@@ -34,11 +33,7 @@ const App = () => {
   const toShow = persons.filter(person => person.name.toLowerCase().includes(searchBar.toLowerCase()))
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    dbService.getData().then(data => setPersons(data))
   }, [])
 
   const handleSearch = (event) => {
@@ -55,12 +50,21 @@ const App = () => {
   const handleSetPersons = (event) => {
     event.preventDefault()
     if (persons.map(person => person.name).includes(newName)) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const changedNumber = { ...persons.find(person => person.name.includes(newName)), number: newNumber }
+        dbService.put(changedNumber).then(() => dbService.getData().then(data => setPersons(data)))
+      }
     }
     else {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
+      const person = { name: newName, number: newNumber }
+      dbService.create(person).then(newPerson => setPersons(persons.concat(newPerson)))
     }
+  }
 
+  const handleDelete = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      dbService.remove(person.id).then(() => dbService.getData().then(data => setPersons(data)))
+    }
   }
   return (
     <div>
@@ -69,7 +73,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm nameHandler={handleNewName} numberHandler={handleNewNumber} personHandler={handleSetPersons} />
       <h2>Numbers</h2>
-      {toShow.map(person => <div key={person.name}>{person.name} {person.number}</div>)}
+      {toShow.map(person => <div key={person.name}>{person.name} {person.number} <button onClick={() => handleDelete(person)}>delete</button></div>)}
     </div>
   )
 
