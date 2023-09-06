@@ -104,9 +104,14 @@ const App = () => {
     }
     else {
       const person = { name: newName, number: newNumber }
-      dbService.create(person).then(newPerson => {
-        setPersons(persons.concat(newPerson))
-        handleMessage(`Added ${newPerson.name}`)
+      dbService.create(person).then((response) => {
+        if(response instanceof Error) {
+          setError(true)
+          handleMessage(`${response.response.data}`)
+        } else {
+          setPersons(persons.concat(person))
+          handleMessage(`Added ${person.name}`)
+        }
       })
     }
   }
@@ -133,7 +138,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm nameHandler={handleNewName} numberHandler={handleNewNumber} personHandler={handleSetPersons} />
       <h2>Numbers</h2>
-      {toShow.map(person => <div key={person.name}>{person.name} {person.number} <button onClick={() => handleDelete(person)}>delete</button></div>)}
+      {toShow.map(person => <div key={person.id}>{person.name} {person.number} <button onClick={() => handleDelete(person)}>delete</button></div>)}
     </div>
   )
 
