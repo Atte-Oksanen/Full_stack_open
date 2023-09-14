@@ -76,13 +76,52 @@ describe('id field named id', () => {
 
 describe('Post works correctly', () => {
     test('Post blog to database', async () => {
-        const testBlog = initialBlogs[0];
+        const testBlog = JSON.parse(JSON.stringify(initialBlogs))[0]
         delete testBlog._id
         await api.post('/api/blogs').send(testBlog).expect(201)
         const responseBlogs = await api.get('/api/blogs')
         expect(responseBlogs.body).toHaveLength(initialBlogs.length + 1)
     })
 })
+
+describe('Likes-field automatically set to 0', () => {
+    test('Likes to 0', async () => {
+        const testBlog = JSON.parse(JSON.stringify(initialBlogs))[0]
+        delete testBlog.likes
+        delete testBlog._id
+        const response = await api.post('/api/blogs').send(testBlog).expect(201)
+        expect(response.body.likes).toBe(0)
+    })
+})
+
+describe('Testing for mandatory fields title & url', () => {
+    test('Mandatory fields', async () => {
+        const testBlog = JSON.parse(JSON.stringify(initialBlogs))[0]
+        delete testBlog.title
+        delete testBlog.url
+        delete testBlog._id
+        await api.post('/api/blogs').send(testBlog).expect(400)
+    })
+})
+
+describe('Deleting a single blog', () => {
+    test('Delete a blog', async () => {
+        const id = initialBlogs[0]._id
+        await api.delete(`/api/blogs/${id}`).expect(204)
+        const response = await api.get('/api/blogs')
+        expect(response.body).toHaveLength(initialBlogs.length - 1)
+    })
+})
+
+describe('Modifying existing blog', () => {
+    test('Modifying blog', async () => {
+        const testBlog = JSON.parse(JSON.stringify(initialBlogs))[0]
+        testBlog.likes = 2
+        const response = await api.put(`/api/blogs/${testBlog._id}`).send(testBlog)
+        expect(response.body.likes).toBe(2)
+    })
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
