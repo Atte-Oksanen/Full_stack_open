@@ -11,7 +11,6 @@ blogRouter.get('/', (req, res) => {
 
 blogRouter.post('/', (req, res) => {
     const blogPost = new Blog(req.body)
-
     blogPost.save().then(result => {
         res.status(201).json(result)
     })
