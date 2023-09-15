@@ -1,10 +1,2 @@
-POST http://localhost:3003/api/blogs/ HTTP/1.1
-content-type: application/json
+DELETE  http://localhost:3003/api/blogs/6504683aa599efad1935cd5e
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R5IiwiaWQiOiI2NTA0NjA4Zjk4NDRkMGMwYmYzNzgwMGMiLCJpYXQiOjE2OTQ3ODU3MDN9.KYy6hG5d_RHvzSNCFrSSLtYXSEV79fK8drHAleiXBu0
-
-{
-"title": "test",
-"author": "sample",
-"url": "test",
-"likes": 20
-}
