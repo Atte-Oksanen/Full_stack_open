@@ -12,17 +12,24 @@ const getAll = async () => {
   return request.data
 }
 
-const createBlog = async BlogObject => {
+const createBlog = async blogObject => {
   const config = {
     headers: { Authorization: token }
   }
-  try {
-    const response = await axios.post(baseUrl, BlogObject, config)
-    return response.data  
-  } catch (error) {
-    throw new Error('400')
+  const response = await axios.post(baseUrl, blogObject, config)
+  return response.data
+}
+
+const putLike = async blogObject => {
+  await axios.put(`${baseUrl}/${blogObject.id}`, blogObject)
+}
+
+const deleteBlog = async blogId => {
+  const config = {
+    headers: { Authorization: token }
   }
+  await axios.delete(`${baseUrl}/${blogId}`, config)
 }
 
 
-export default { getAll, createBlog, setToken}
+export default { getAll, createBlog, setToken, putLike, deleteBlog }
