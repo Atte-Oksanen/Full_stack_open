@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
-import Blog from './Blog'
+import { useState } from 'react'
 
-const BlogForm = ({ handleMessage, handleNewBlog }) => {
+const BlogForm = ({ handleNewBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
