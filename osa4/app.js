@@ -9,6 +9,7 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const userRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const testRouter = require('./controllers/testing')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -46,6 +47,10 @@ mongoose.connect(config.MONGO_URI)
 app.use(cors())
 app.use(express.json())
 app.use(userExtractor)
+if (process.env.NODE_ENV === 'test') {
+  app.use('/api/testing', testRouter)
+  console.log('test routing active')
+}
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)

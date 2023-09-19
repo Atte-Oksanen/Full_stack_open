@@ -24,8 +24,17 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
     }
   }
 
+  const toggleDelete = () => {
+    if ((JSON.parse(window.localStorage.getItem('blogUser'))).id === blog.user || (JSON.parse(window.localStorage.getItem('blogUser'))).id === blog.user.id) {
+      return (
+        <button onClick={deleteBlog}>Remove</button>
+      )
+    }
+    return null
+  }
+
   return (
-    <div style={style}>
+    <div style={style} id={blog.title}>
       {blog.title} by {blog.author}
       <Togglable buttonLabel1='View' buttonLabel2='Hide'>
         <div>
@@ -33,9 +42,8 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
           <br></br>
           {likes} <button onClick={like}>Like</button>
           <br></br>
-          {blog.user.name}
           <br></br>
-          <button onClick={deleteBlog}>Remove</button>
+          {toggleDelete()}
         </div>
       </Togglable>
     </div>

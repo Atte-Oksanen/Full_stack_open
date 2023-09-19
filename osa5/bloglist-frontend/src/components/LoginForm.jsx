@@ -18,19 +18,19 @@ const LoginForm = ({ handleMessage, setUser }) => {
       setPassword('')
       blogService.setToken(tempUser.token)
     } catch (error) {
-      handleMessage('Wrong username', true)
+      handleMessage('Wrong username or password', true)
     }
   }
   return (
     <form onSubmit={handleLogin}>
       <h2>Login</h2>
       username:
-      <input type='text' value={username} name='Username' onChange={({ target }) => setUsername(target.value)}></input>
+      <input id='username' type='text' value={username} name='Username' onChange={({ target }) => setUsername(target.value)}></input>
       <br></br>
       password:
-      <input type='password' value={password} name='Password' onChange={({ target }) => setPassword(target.value)}></input>
+      <input id='password' type='password' value={password} name='Password' onChange={({ target }) => setPassword(target.value)}></input>
       <br></br>
-      <button type='submit'>Login</button>
+      <button type='submit'>Log in</button>
     </form>
   )
 }

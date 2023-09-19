@@ -29,7 +29,7 @@ const App = () => {
       blogs.sort((blog1, blog2) => (blog1.likes < blog2.likes) ? 1 : (blog1.likes > blog2.likes) ? -1 : 0)
       setBlogs(blogs)
     })
-  }, [blogs])
+  }, [])
 
 
   const handleLogout = () => {
@@ -50,8 +50,9 @@ const App = () => {
   const handleNewBlog = async newBlog => {
     blogFormRef.current.toggleVisibility()
     try {
-      await blogService.createBlog(newBlog)
+      const blog = await blogService.createBlog(newBlog)
       handleMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`, false)
+      setBlogs(blogs.concat(blog))
     } catch (error) {
       handleMessage('The blog could not be added')
     }
@@ -59,9 +60,12 @@ const App = () => {
 
   const handleLike = async blog => {
     await blogService.putLike(blog)
+    const sortedBlogs = blogs.toSorted((blog1, blog2) => (blog1.likes < blog2.likes) ? 1 : (blog1.likes > blog2.likes) ? -1 : 0)
+    setBlogs(sortedBlogs)
   }
 
   const handleBlogDelete = async blogid => {
+    setBlogs(blogs.filter(blog => blog.id !== blogid))
     await blogService.deleteBlog(blogid)
   }
 
