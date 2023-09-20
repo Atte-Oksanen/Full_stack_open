@@ -27,13 +27,21 @@ const reducer = (state = initialState, action) => {
       const index = state.findIndex(object => object.id === action.payload)
       const newState = JSON.parse(JSON.stringify(state))
       newState[index].votes = newState[index].votes + 1
+      newState.sort((element1, element2) => (element1.votes < element2.votes) ? 1 : (element1.votes > element2.votes) ? -1 : 0)
       return newState
     case 'NEW':
-      return state.concat({content: action.payload, id: getId(), votes: 0})
+      return state.concat(asObject(action.payload))
     default:
       break;
   }
   return state
+}
+export const vote = id => {
+  return({type: 'VOTE', payload: id})
+}
+
+export const newAnecdote = payload => {
+  return({ type: 'NEW', payload: payload})
 }
 
 export default reducer
