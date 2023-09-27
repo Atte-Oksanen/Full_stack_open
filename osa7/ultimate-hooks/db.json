@@ -1,0 +1,15 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "template note"
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "template name",
+      "number": "123456789"
+    }
+  ]
+}
