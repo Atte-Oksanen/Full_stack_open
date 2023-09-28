@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addnewBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { toggleVisibility } from '../reducers/togglableReducer'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -29,14 +30,16 @@ const BlogForm = () => {
         5000,
       ),
     )
+    dispatch(toggleVisibility())
   }
 
   return (
-    <div>
-      <h2>Create new</h2>
+    <div className='border-2 border-gray-400 w-fit p-4 m-3'>
+      <h2 className='text-lg font-bold pb-1'>Create new</h2>
       <form onSubmit={addBlog}>
         Title:
         <input
+          className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           id='title'
           type='text'
           value={title}
@@ -45,6 +48,7 @@ const BlogForm = () => {
         <br></br>
         Author:
         <input
+          className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           id='author'
           type='text'
           value={author}
@@ -53,12 +57,17 @@ const BlogForm = () => {
         <br></br>
         URL:
         <input
+          className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           id='url'
           type='text'
           value={url}
           name='URL'
           onChange={({ target }) => setUrl(target.value)}></input>
-        <button id='submitForm' type='submit'>
+        <br />
+        <button
+          className='bg-gray-600 hover:bg-gray-500 text-white py-1 px-2 rounded mt-2'
+          id='submitForm'
+          type='submit'>
           Create
         </button>
       </form>

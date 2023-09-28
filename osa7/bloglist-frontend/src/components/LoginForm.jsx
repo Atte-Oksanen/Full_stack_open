@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import loginService from '../services/login'
 import { useDispatch } from 'react-redux'
-import { initializeUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { initializeUser } from '../reducers/userReducer'
+import loginService from '../services/login'
 
 const LoginForm = ({ handleMessage }) => {
   const dispatch = useDispatch()
@@ -30,10 +30,11 @@ const LoginForm = ({ handleMessage }) => {
     }
   }
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
+    <form className='bg-gray-300 w-fit p-3' onSubmit={handleLogin}>
+      <h2 className='font-bold'>Login</h2>
       username:
       <input
+        className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
         id='username'
         type='text'
         value={username}
@@ -42,13 +43,18 @@ const LoginForm = ({ handleMessage }) => {
       <br></br>
       password:
       <input
+        className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
         id='password'
         type='password'
         value={password}
         name='Password'
         onChange={({ target }) => setPassword(target.value)}></input>
       <br></br>
-      <button type='submit'>Log in</button>
+      <button
+        className='bg-gray-600 hover:bg-gray-500 text-white py-1 px-2 rounded mt-2'
+        type='submit'>
+        Log in
+      </button>
     </form>
   )
 }
