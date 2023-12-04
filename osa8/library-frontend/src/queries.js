@@ -1,22 +1,22 @@
 import { gql } from '@apollo/client'
 
 export const ALL_BOOKS = gql`
-	query {
-		allBooks {
-			author {
-				bookCount
-				born
-				name
-			}
-			genres
-			published
-			title
-		}
-	}
+	query AllBooks($genre: String) {
+  allBooks(genre: $genre) {
+    author {
+      bookCount
+      born
+      name
+    }
+    genres
+    published
+    title
+  }
+}
 `
 export const NEW_BOOK = gql`
-	mutation addBook($title: String!, $published: String!, $author: String!) {
-		addBook(title: $title, published: $published, author: $author) {
+	mutation addBook($title: String!, $published: String!, $author: String!, $genres: [String]) {
+		addBook(title: $title, published: $published, author: $author, genres: $genres) {
 			genres
 			published
 			title
@@ -45,3 +45,18 @@ export const UPDATE_AGE = gql`
 		}
 	}
 `
+export const LOG_IN = gql`
+mutation Login($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
+    value
+  }
+}`
+
+export const ME = gql`
+query AllBooks {
+  me {
+    favoriteGenre
+    id
+    username
+  }
+}`
