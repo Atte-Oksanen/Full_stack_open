@@ -8,6 +8,10 @@ patientRouter.get('/', (_req, res) => {
   res.json(patientService.getPatientsNoSSN())
 })
 
+patientRouter.get('/:id', (req, res) => {
+  res.json(patientService.getPatientInfo(req.params.id))
+})
+
 patientRouter.post('/', (req, res) => {
   const patient = patientService.addPatient(cleanUpNewPatient.cleanUp({ ...req.body, id: uuid() }))
   res.json(patient)
