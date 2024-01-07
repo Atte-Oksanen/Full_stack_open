@@ -8,7 +8,6 @@ db.createUser({
     },
   ],
 });
-
 db.createCollection('todos');
 
 db.todos.insert({ text: 'Write code', done: true });
